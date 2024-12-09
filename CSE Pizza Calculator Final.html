@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+<image src="https://media.istockphoto.com/id/496546118/photo/slice-of-fresh-italian-classic-original-pepperoni-pizza-isolated.jpg?s=612x612&w=0&k=20&c=7aYapAwoe4fO5jRiNMIFiflIztcBAA8s-GLqAmBiSgA=" alt="Slice of pizza" width=800 height=200> </image>
+
+<div id = mainDiv>
+<p style="font-size: 24px;">Price of pizza in $</p> <input id=priceOfPizza type="number" min="0" step="0.1" placeholder="Enter here"> </input>
+<p> </p>
+<p style="font-size: 24px;">Diameter of Pizza in inches</p> <input id=sizeOfPizza type="number" min="0" step="0.1"placeholder="Enter here"> </input>
+<p> </p>
+<p style="font-size: 24px;">Number of requested slices</p> <input id=slicesOfPizza type="number" min="0" step="1" placeholder="Enter here"> </input>
+<p> </p>
+<p style="font-size: 24px;">Number of people ordering.</p> <input id=peopleOrdering type="number" min="0" step="1" placeholder="Enter here (optional)"> </input>
+
+<button id=submitButton> Get Results </button>
+
+</div>
+
+<p style="display: none; font-size: 24px; color:red;" id="invalidLabel">Enter a valid number.</p>
+
+<p> </p>
+
+<script>
+  document.getElementById('mainDiv').style.backgroundColor = '#D3D3D3';
+  const peopleOrdering = document.getElementById('peopleOrdering')
+  const slicesOfPizza = document.getElementById('slicesOfPizza')
+  const sizeOfPizza = document.getElementById('sizeOfPizza')
+  const priceOfPizza = document.getElementById('priceOfPizza')
+  const submitButton = document.getElementById('submitButton')
+  const mainDiv = document.getElementById('mainDiv')
+
+  const invalidLabel = document.getElementById('invalidLabel')
+
+  const invalidInput = function() {
+    console.log('Enter a valid number')
+    invalidLabel.style.display = 'block'
+  }
+  
+  submitButton.addEventListener('click', function() {
+    console.log('Submitted')
+    let ordering = parseFloat(peopleOrdering.value)
+    let slices = parseFloat(slicesOfPizza.value)
+    let initialsize = parseFloat(sizeOfPizza.value)
+    let priceperpizza = parseFloat(priceOfPizza.value)
+
+
+    if (isNaN(slices) || slices <= 0) {
+      invalidInput()
+      return
+    }
+    if (isNaN(initialsize) || initialsize <= 0) {
+      invalidInput()
+      return
+    }
+    if (isNaN(priceperpizza) || priceperpizza <= 0) {
+      invalidInput()
+      return
+    }
+    
+    if (invalidLabel.style.display = 'block') {
+      invalidLabel.style.display = 'none';
+    }
+
+    mainDiv.style.display = 'none';
+    const resultDiv = document.createElement('div');
+    const costperinchLabel = document.createElement('p');
+    const numberofpizzasLabel = document.createElement('p');
+    const chargepersliceLabel = document.createElement('p');
+    const overallcostLabel = document.createElement('p');
+
+    const returnButton = document.createElement('button');
+    returnButton.textContent = 'Return';
+    returnButton.style.padding = '10px 20px';
+    returnButton.style.fontSize = '16px';
+    returnButton.style.marginTop = '10px';
+    returnButton.style.cursor = 'pointer';
+    returnButton.style.borderRadius = '5px';
+    returnButton.style.backgroundColor = '#4CAF50';
+    returnButton.style.color = 'white';
+    returnButton.style.border = 'none';
+
+    costperinchLabel.style.fontSize = '20px';
+    numberofpizzasLabel.style.fontSize = '20px';
+    chargepersliceLabel.style.fontSize = '20px';
+    overallcostLabel.style.fontSize = '20px';
+    
+    document.body.appendChild(resultDiv);
+    resultDiv.appendChild(costperinchLabel);
+    resultDiv.appendChild(numberofpizzasLabel);
+    resultDiv.appendChild(chargepersliceLabel);
+    resultDiv.appendChild(overallcostLabel);
+    resultDiv.appendChild(returnButton);
+
+    let costPerSquareInch = priceperpizza / (Math.PI * (initialsize / 2) ** 2);
+    let totalNumberOfPizzas = Math.ceil(slices / 8);
+    let chargePerSlice = (priceperpizza * totalNumberOfPizzas) / (8 * totalNumberOfPizzas);
+    let overallCost = priceperpizza * totalNumberOfPizzas;
+
+    costperinchLabel.textContent = "Cost per square inch: "+ String(costPerSquareInch);
+    numberofpizzasLabel.textContent = "Number of pizzas: " + String(totalNumberOfPizzas);
+    chargepersliceLabel.textContent = "Cost per slice: $"+ String(chargePerSlice);
+    overallcostLabel.textContent = "Overall cost: $" + String(overallCost);
+
+    returnButton.addEventListener('click', function() {
+      mainDiv.style.display = 'block'
+      resultDiv.remove()
+    });
+
+  });
+
+</script>
+
+
+
+</body>
+</html>
